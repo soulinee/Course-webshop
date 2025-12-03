@@ -8,6 +8,9 @@ function App() {
 
   return (
     <>
+    // moet ik mijn app de homepagina maken 
+    // ik ga hier de home component gebruiken
+    
       <div>
         <a href="https://vite.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
