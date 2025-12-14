@@ -11,7 +11,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="contracts\" />
     <Folder Include="controllers\" />
+    <Folder Include="Dtos\" />
   </ItemGroup>
 
 </Project>

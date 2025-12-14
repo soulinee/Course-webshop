@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace YoutubeWebApi.controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/courses")]
     [ApiController]
     public class CourseController : ControllerBase
     {
@@ -13,39 +13,14 @@ namespace YoutubeWebApi.controllers
     {
         _youtube = youtube;
     }
-
-    // Hardcode your playlists for now
-    private readonly List<string> playlistIds = new()
-    {
-        "PLBCF2DAC6FFB574DE",
-        "YOUR_OTHER_PLAYLIST",
-        "ANOTHER_PLAYLIST"
-    };
-
-    [HttpGet]
-    public async Task<IActionResult> GetAllPlaylists()
-    {
-        var results = new List<object>();
-
-        foreach (var id in playlistIds)
+      [HttpGet]
+        public async Task<IActionResult> GetCourses([FromQuery] string topic = "react tutorial")
         {
-            var playlist = await _youtube.GetPlaylistAsync(id);
-            var item = playlist.Items.FirstOrDefault();
-
-            if (item != null)
-            {
-                results.Add(new
-                {
-                    id = item.Id,
-                    title = item.Snippet.Title,
-                    thumbnail = item.Snippet.Thumbnails.Medium.Url,
-                    description = item.Snippet.Description,
-                    itemCount = item.ContentDetails.ItemCount
-                });
-            }
+            var courses = await _youtube.SearchCoursesAsync(topic);
+            return Ok(courses);
         }
 
-        return Ok(results);
-    }
+
+
     }
 }
