@@ -8,11 +8,36 @@ public class YoutubeService
     private readonly HttpClient _http;
     private readonly IConfiguration _config;
 
+    private static readonly string[] CourseTopics =
+{
+    "react tutorial",
+    "react hooks tutorial",
+    "react context tutorial",
+    "typescript react tutorial",
+    "javascript tutorial",
+    "asp.net core tutorial",
+    "c# tutorial",
+    "web development course",
+    "AI tutorial",
+    "English course",
+    "Communication tutorial"
+};
+
     public YoutubeService(HttpClient http, IConfiguration config)
     {
         _http = http;
         _config = config;
     }
+
+    public List<string> PickRandomCourseTopics(int count = 2)
+    {
+        return CourseTopics
+            .OrderBy(_ => Random.Shared.Next())
+            .Take(count)
+            .ToList();
+    }
+
+
 
     public async Task<YoutubePlaylistResponse> GetPlaylistAsync(string playlistId)
     {
@@ -23,9 +48,7 @@ public class YoutubeService
 
         return await _http.GetFromJsonAsync<YoutubePlaylistResponse>(url);
     }
-
-
-   public async Task<List<CourseDto>> SearchCoursesAsync(string query)
+    public async Task<List<CourseDto>> SearchCoursesAsync(string query)
 {
     var key = _config["Youtube:ApiKey"];
 
@@ -47,6 +70,29 @@ public class YoutubeService
         Description = item.Snippet.Description
     }).ToList();
 }
+
+    public async Task<List<CourseDto>> GetMixedCoursesAsync(int topicsCount = 2)
+    {
+        var topics = PickRandomCourseTopics(topicsCount);
+
+        var allCourses = new List<CourseDto>();
+
+        foreach (var topic in topics)
+        {
+            var courses = await SearchCoursesAsync(topic);
+            allCourses.AddRange(courses);
+        }
+
+        return allCourses
+            .GroupBy(c => c.Id)        // duplicates eruit
+            .Select(g => g.First())
+            .OrderBy(_ => Random.Shared.Next()) // mix React & C#
+            .ToList();
+    }
+
+
+
+    
 
 
 }

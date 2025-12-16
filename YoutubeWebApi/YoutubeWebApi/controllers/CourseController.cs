@@ -14,11 +14,13 @@ namespace YoutubeWebApi.controllers
         _youtube = youtube;
     }
       [HttpGet]
-        public async Task<IActionResult> GetCourses([FromQuery] string topic = "react tutorial")
-        {
-            var courses = await _youtube.SearchCoursesAsync(topic);
-            return Ok(courses);
-        }
+       
+    public async Task<IActionResult> GetCourses()
+    {
+        var courses = await _youtube.GetMixedCoursesAsync(5);
+        return Ok(courses);
+    }
+
 
 
 

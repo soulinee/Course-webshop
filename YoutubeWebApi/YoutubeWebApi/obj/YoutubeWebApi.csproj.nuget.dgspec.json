@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\souli\\Documents\\OnlineCourseMarketPlace_Backend\\OnlineCourseMarketPlace_Backend\\YoutubeWebApi\\YoutubeWebApi\\YoutubeWebApi.csproj": {}
+    "C:\\Users\\souli\\Documents\\OnlineCourseMarketPlace_Backend\\OnlineCourseMarketPlace_Backend\\YoutubeWebApi\\YoutubeWebApi\\YoutubeWebApi.csproj": {}
   },
   "projects": {
-    "c:\\Users\\souli\\Documents\\OnlineCourseMarketPlace_Backend\\OnlineCourseMarketPlace_Backend\\YoutubeWebApi\\YoutubeWebApi\\YoutubeWebApi.csproj": {
+    "C:\\Users\\souli\\Documents\\OnlineCourseMarketPlace_Backend\\OnlineCourseMarketPlace_Backend\\YoutubeWebApi\\YoutubeWebApi\\YoutubeWebApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\souli\\Documents\\OnlineCourseMarketPlace_Backend\\OnlineCourseMarketPlace_Backend\\YoutubeWebApi\\YoutubeWebApi\\YoutubeWebApi.csproj",
+        "projectUniqueName": "C:\\Users\\souli\\Documents\\OnlineCourseMarketPlace_Backend\\OnlineCourseMarketPlace_Backend\\YoutubeWebApi\\YoutubeWebApi\\YoutubeWebApi.csproj",
         "projectName": "YoutubeWebApi",
-        "projectPath": "c:\\Users\\souli\\Documents\\OnlineCourseMarketPlace_Backend\\OnlineCourseMarketPlace_Backend\\YoutubeWebApi\\YoutubeWebApi\\YoutubeWebApi.csproj",
+        "projectPath": "C:\\Users\\souli\\Documents\\OnlineCourseMarketPlace_Backend\\OnlineCourseMarketPlace_Backend\\YoutubeWebApi\\YoutubeWebApi\\YoutubeWebApi.csproj",
         "packagesPath": "C:\\Users\\souli\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\souli\\Documents\\OnlineCourseMarketPlace_Backend\\OnlineCourseMarketPlace_Backend\\YoutubeWebApi\\YoutubeWebApi\\obj\\",
+        "outputPath": "C:\\Users\\souli\\Documents\\OnlineCourseMarketPlace_Backend\\OnlineCourseMarketPlace_Backend\\YoutubeWebApi\\YoutubeWebApi\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
