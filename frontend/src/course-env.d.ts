@@ -1,23 +1,23 @@
-interface Course{
-  adult: boolean;
-  backdrop_path: string;
-  genre_ids: number[];
-  id: number;
-  original_language: string;
-  original_title: string;
-  overview: string;
-  popularity: number;
-  poster_path: string;
-  release_date: string;
+interface Course {
+  id: string;
   title: string;
-  video: boolean;
-  vote_average: number;
-  vote_count: number;
+  description: string;
+  thumbnail: string;
+  itemCount: number;
 }
 
 interface CourseResponse {
-  page: number;
-  results: Movie[];
-  total_pages: number;
-  total_results: number;
+  items: {
+    id: string;
+    snippet: {
+      title: string;
+      description: string;
+      thumbnails: {
+        medium: { url: string };
+      };
+    };
+    contentDetails: {
+      itemCount: number;
+    };
+  }[];
 }

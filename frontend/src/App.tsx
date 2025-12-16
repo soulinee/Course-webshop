@@ -1,26 +1,27 @@
-import { useState } from 'react'
- 
-import './App.css'
-interface MovieResponse {
-  page: number;
-  results: Movie[];
-  total_pages: number;
-  total_results: number;
-}
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import CoursesList from "./pages/courses/CoursesList";
+import Course from "./pages/courses/Course";
+
+
 
 function App() {
-   
-
-
-
   return (
-    <>
-    // moet ik mijn app de homepagina maken 
-    // ik ga hier de home component gebruiken
-    
- 
-    </>
-  )
+    <BrowserRouter>
+      <Header />
+      
+
+  <main className="bg-black min-h-screen">
+    <Routes>
+      <Route path="/courses" element={<CoursesList />} />
+      <Route path="/course/:courseId" element={<Course />} />
+    </Routes>
+  </main>
+
+  <Footer />
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
