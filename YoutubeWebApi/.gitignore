@@ -1,0 +1,6 @@
+# Build output
+**/bin/
+**/obj/
+
+# Generated assembly cache
+**/AssemblyInfoInputs.cache
