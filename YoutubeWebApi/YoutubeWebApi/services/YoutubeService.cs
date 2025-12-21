@@ -1,12 +1,15 @@
 using System.Net.Http;
 using System.Net.Http.Json;
+using Microsoft.Extensions.Caching.Memory;
 using YoutubeWebApi.contracts;
 using YoutubeWebApi.Dtos;
+using YoutubeWebApi.mapping;
 
 public class YoutubeService
 {
     private readonly HttpClient _http;
     private readonly IConfiguration _config;
+     private readonly IMemoryCache _cache;
 
     private static readonly string[] CourseTopics =
 {
@@ -23,9 +26,10 @@ public class YoutubeService
     "Communication tutorial"
 };
 
-    public YoutubeService(HttpClient http, IConfiguration config)
+    public YoutubeService(HttpClient http,IMemoryCache cache, IConfiguration config)
     {
         _http = http;
+        _cache = cache;
         _config = config;
     }
 
@@ -48,47 +52,87 @@ public class YoutubeService
 
         return await _http.GetFromJsonAsync<YoutubePlaylistResponse>(url);
     }
-    public async Task<List<CourseDto>> SearchCoursesAsync(string query)
+   public async Task<List<CourseDto>> SearchCoursesAsync(string query)
 {
-    var key = _config["Youtube:ApiKey"];
+    var cacheKey = $"youtube:search:playlist:{query.Trim().ToLowerInvariant()}";
 
+    if (_cache.TryGetValue(cacheKey, out List<CourseDto>? cached) && cached is not null)
+        return cached;
+
+    var apiKey = _config["Youtube:ApiKey"];
     var url =
-        "https://www.googleapis.com/youtube/v3/search" +
-        "?part=snippet" +
-        "&type=playlist" +
-        $"&q={Uri.EscapeDataString(query)}" +
-        "&maxResults=10" +
-        $"&key={key}";
+        $"https://www.googleapis.com/youtube/v3/search" +
+        $"?part=snippet&type=playlist&maxResults=5&q={Uri.EscapeDataString(query)}&key={apiKey}";
 
-    var response = await _http.GetFromJsonAsync<YoutubeSearchResponse>(url);
+    // IMPORTANT: don't crash your API blindly
+    var res = await _http.GetAsync(url);
+    var body = await res.Content.ReadAsStringAsync();
 
-    return response!.Items.Select(item => new CourseDto
-    {
-        Id = item.Id.PlaylistId,
-        Title = item.Snippet.Title,
-        Thumbnail = item.Snippet.Thumbnails.Medium.Url,
-        Description = item.Snippet.Description
-    }).ToList();
+    if (!res.IsSuccessStatusCode)
+        throw new Exception($"YouTube failed ({(int)res.StatusCode}): {body}");
+
+    var data = await res.Content.ReadFromJsonAsync<YoutubeSearchResponse>()
+               ?? throw new Exception("YouTube returned empty response.");
+
+    var mapped = CourseMapper.FromYoutubeSearch(data!);
+
+    _cache.Set(cacheKey, mapped, TimeSpan.FromMinutes(60)); // ✅ cache longer for search
+    return mapped;
 }
 
-    public async Task<List<CourseDto>> GetMixedCoursesAsync(int topicsCount = 2)
+private async Task<List<CourseDto>> ActuallyCallYoutubeAndBuildCourses(int topicsCount)
+{
+    var topics = new[]
     {
-        var topics = PickRandomCourseTopics(topicsCount);
+        "react tutorial",
+        "c# web api",
+        "asp.net core",
+        "javascript tutorial",
+        "frontend development",
+        "backend development"
+    };
 
-        var allCourses = new List<CourseDto>();
+    var results = new List<CourseDto>();
 
-        foreach (var topic in topics)
-        {
-            var courses = await SearchCoursesAsync(topic);
-            allCourses.AddRange(courses);
-        }
-
-        return allCourses
-            .GroupBy(c => c.Id)        // duplicates eruit
-            .Select(g => g.First())
-            .OrderBy(_ => Random.Shared.Next()) // mix React & C#
-            .ToList();
+    foreach (var topic in topics.Take(topicsCount))
+    {
+        var courses = await SearchCoursesAsync(topic);
+        results.AddRange(courses);
     }
+
+    // optional: remove duplicates by playlist id
+    return results
+        .GroupBy(c => c.Id)
+        .Select(g => g.First())
+        .ToList();
+}
+
+
+
+    public async Task<List<CourseDto>> GetMixedCoursesAsync(int topicsCount = 2)
+{
+    // ✅ cache key should include parameters that change the result
+    var cacheKey = $"courses:mixed:{topicsCount}";
+
+    // 1) Return cached if exists
+    if (_cache.TryGetValue(cacheKey, out List<CourseDto>? cached) && cached is not null)
+        return cached;
+
+    // 2) Otherwise call YouTube
+    var courses = await ActuallyCallYoutubeAndBuildCourses(topicsCount);
+
+    // 3) Store in cache with expiration
+    _cache.Set(
+        cacheKey,
+        courses,
+        new MemoryCacheEntryOptions
+        {
+            AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(30), // ✅ good default
+            SlidingExpiration = TimeSpan.FromMinutes(10)               // optional
+        });
+
+    return courses;
+}
 
 
 
