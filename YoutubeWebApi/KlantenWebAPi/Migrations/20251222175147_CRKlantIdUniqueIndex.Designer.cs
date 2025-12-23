@@ -4,6 +4,7 @@ using KlantenWebAPi.context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KlantenWebAPi.Migrations
 {
     [DbContext(typeof(KlantDbContext))]
-    partial class KlantDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251222175147_CRKlantIdUniqueIndex")]
+    partial class CRKlantIdUniqueIndex
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,7 +48,7 @@ namespace KlantenWebAPi.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Emailadres")
+                    b.HasIndex("Id")
                         .IsUnique();
 
                     b.ToTable("Klanten");

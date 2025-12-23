@@ -18,7 +18,11 @@
 
   <ItemGroup>
     <Folder Include="context\" />
+    <Folder Include="context\controllers\" />
+    <Folder Include="contracten\" />
     <Folder Include="model\" />
+    <Folder Include="repos\" />
+    <Folder Include="services\" />
   </ItemGroup>
 
 </Project>

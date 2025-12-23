@@ -9,7 +9,8 @@ builder.Services.AddControllers();
 
 builder.Services.AddDbContext<KlantDbContext>(options =>
     options.UseSqlServer(
-        builder.Configuration.GetConnectionString("DefaultConnection")
+        builder.Configuration.GetConnectionString("DefaultConnection"),
+        sql => sql.EnableRetryOnFailure()
     )
 );
 
