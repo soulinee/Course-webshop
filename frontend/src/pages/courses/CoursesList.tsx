@@ -1,60 +1,70 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+//import { Link } from "react-router-dom";
+import Loading from "../../components/Loading";
 
 const CoursesList = () => {
   const [courses, setCourses] = useState<Course[]>([]);
-
-  useEffect(() => {
-    (async () => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+ useEffect(() => {
+  const fetchCourses = async () => {
+    try {
+      setIsLoading(true);
+        await new Promise(resolve => setTimeout(resolve, 1000));
       const response = await fetch("http://localhost:5263/api/courses");
+
+      if (!response.ok) {
+        throw new Error("Failed to load courses");
+      }
+
       const data = await response.json();
       setCourses(data);
-    })();
-  }, []);
 
-  return (
-    <div className="bg-black min-h-screen text-white">
-      <div className="max-w-7xl mx-auto px-6 py-10">
-        <h1 className="text-3xl font-bold mb-8">
-          Available Courses
-        </h1>
+    } catch (error) {
+      if (error instanceof Error) {
+        setError(`Error: ${error.message}`);
+      } else {
+        setError("Unexpected error occurred");
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-        <div
-          className="
-            grid
-            grid-cols-1
-            sm:grid-cols-2
-            md:grid-cols-3
-            lg:grid-cols-4
-            gap-8
-          "
-        >
-          {courses.map(c => (
-            <div
-              key={c.id}
-              className="bg-gray-900 rounded-lg overflow-hidden hover:scale-[1.02] transition"
-            >
-              <Link to={`/course/${c.id}`}>
-                <img
-                  src={c.thumbnail}
-                  alt={c.title}
-                  className="w-full h-40 object-cover"
-                />
-                <div className="p-4">
-                  <h2 className="font-semibold text-lg mb-1">
-                    {c.title}
-                  </h2>
-                  <p className="text-sm text-gray-400">
-                    {c.itemCount} lessons
-                  </p>
-                </div>
-              </Link>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
+  fetchCourses();
+}, []);
+
+
+// conditionele rendering
+
+  //if(isLoading){
+   // return <Loading/>;
+  //}
+ return (
+  <main>
+  <h1 className="page-title">Available Courses</h1>
+  
+     
+   
+
+       
+
+{
+  isLoading ? <Loading/> : <div className="course-grid">
+    {courses.map(c => (
+      <a key={c.id} href={`/course/${c.id}`} className="course-card">
+        <img src={c.thumbnail} alt={c.title} />
+        <h2>{c.title}</h2>
+        <p>{c.itemCount} lessons</p>
+      </a>
+    ))}
+  </div>
+}
+   
+</main>
+
+);
+
 };
 
 export default CoursesList;
