@@ -1,11 +1,17 @@
 import { useEffect, useState } from "react";
 //import { Link } from "react-router-dom";
 import Loading from "../../components/Loading";
+import { Link } from "react-router-dom";
+import AddToCartButton from "../../components/AddToCartButton";
 
 const CoursesList = () => {
   const [courses, setCourses] = useState<Course[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const addToCart = (course: Course) => {
+  console.log("Added to cart:", course);
+};
+
  useEffect(() => {
   const fetchCourses = async () => {
     try {
@@ -49,7 +55,7 @@ const CoursesList = () => {
 
        
 
-{
+{/* {
   isLoading ? <Loading/> : <div className="course-grid">
     {courses.map(c => (
       <a key={c.id} href={`/course/${c.id}`} className="course-card">
@@ -60,7 +66,32 @@ const CoursesList = () => {
     ))}
   </div>
 }
-   
+    */}
+{
+  isLoading ? (
+    <Loading />
+  ) : (
+    <div className="course-grid">
+      {courses.map(c => (
+        <div key={c.id} className="course-card">
+          
+          {/* Clickable course content */}
+          <Link to={`/course/${c.id}`} className="course-link">
+            <img src={c.thumbnail} alt={c.title} />
+            <h2>{c.title}</h2>
+            <p>{c.itemCount} lessons</p>
+          </Link>
+
+          {/* Non-navigation actions */}
+          <AddToCartButton onClick={() => addToCart(c)} />
+
+        </div>
+      ))}
+    </div>
+  )
+}
+
+
 </main>
 
 );

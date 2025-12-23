@@ -66,6 +66,12 @@ main {
   border-radius: 10px;
   overflow: hidden;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  background: #1c1c1c;
+  border-radius: 12px;
+  padding: 16px;
+  height: 100%;
 }
 
 .course-card:hover {
@@ -126,4 +132,24 @@ main {
   color: #ff4d4d;
 }
 
+
+.add-to-cart-button {
+  margin-top: 10px;
+  width: 100%;
+  padding: 10px;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.add-to-cart-button:hover {
+  background-color: #1e40af;
+}
+
+.course-link {
+  flex: 1; /* THIS is the magic */
+}
 
