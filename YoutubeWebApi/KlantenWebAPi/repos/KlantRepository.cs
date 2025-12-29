@@ -9,55 +9,65 @@ namespace KlantenWebAPi.repos;
 
 public class KlantRepository : IKlantRepository
 {
-    private readonly Dictionary<Guid, Klant> _klanten
-        = new();
-    public Task<KlantResponseContract> CreateAsync(KlantRequestContract klant)
+    private readonly KlantDbContext _db;
+
+    public KlantRepository(KlantDbContext db)
     {
-        var klantEntity = klant.MapToEntity();
-        
-        _klanten.Add(klantEntity.Id, klantEntity);
-         var response = klantEntity.MapToResponse();
-         return Task.FromResult(response);
+        _db = db;
     }
 
-    public Task DeleteAsync(Guid id)
+   public async Task<KlantResponseContract> CreateAsync(KlantRequestContract klant)
+{
+    var entity = klant.MapToEntity();
+    _db.Klanten.Add(entity);
+    await _db.SaveChangesAsync();
+    return entity.MapToResponse();
+}
+
+public async Task<bool> DeleteAsync(Guid id)
+{
+    var klant = await _db.Klanten.FindAsync(id);
+
+    if (klant is null)
+        return false; // nothing to delete
+
+    _db.Klanten.Remove(klant);
+    await _db.SaveChangesAsync();
+
+    return true;
+}
+
+
+    public async Task<List<KlantResponseContract>> GetAllAsync()
     {
-        _klanten.Remove(id);
-        return Task.FromResult(0);
+        return await _db.Klanten
+            .Select(k => k.MapToResponse())
+            .ToListAsync();
     }
+   public async Task<KlantResponseContract?> GetByIdAsync(Guid id)
+{
+    var klant = await _db.Klanten.FindAsync(id);
 
-    public Task<List<KlantResponseContract>> GetAllAsync()
-    {
-       var response = _klanten.Values
-        .Select(k => k.MapToResponse())
-        .ToList();
+    if (klant is null)
+        return null;
 
-        return Task.FromResult(response);
-    }
+    return klant.MapToResponse();
+}
 
-    public Task<KlantResponseContract?> GetByIdAsync(Guid id)
-    {
-         if (!_klanten.TryGetValue(id, out var klant))
-        {
-            return Task.FromResult<KlantResponseContract?>(null);
-        }
+public async Task<bool> UpdateAsync(Guid id, KlantRequestContract klant)
+{
+    var existing = await _db.Klanten.FindAsync(id);
 
-        var response = klant.MapToResponse();
-        return Task.FromResult<KlantResponseContract?>(response);
-    }
+    if (existing is null)
+        return false; // nothing to update
 
-    public Task UpdateAsync(Guid id, KlantRequestContract klant)
-    {
-          if (!_klanten.TryGetValue(id, out var existingKlant))
-    {
-        // niets updaten → service/controller beslist wat dit betekent
-        return Task.CompletedTask;
-    }
+    existing.VolledigeNaam = klant.VolledigeNaam;
+    existing.Emailadres    = klant.Emailadres;
+    existing.Wachtwoord    = klant.Wachtwoord;
 
-    existingKlant.VolledigeNaam = klant.VolledigeNaam;
-    existingKlant.Emailadres   = klant.Emailadres;
-    existingKlant.Wachtwoord   = klant.Wachtwoord;
+    await _db.SaveChangesAsync();
+    return true;
+}
 
-    return Task.CompletedTask;
-    }
+
 }

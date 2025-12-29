@@ -1,8 +1,12 @@
 using Microsoft.EntityFrameworkCore;
  
 using KlantenWebAPi.context;
+using KlantenWebAPi.repos;
+using KlantenWebAPi.services;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddScoped<IKlantRepository, KlantRepository>();
+builder.Services.AddScoped<IKlantService, KlantService>();
 
 // Services
 builder.Services.AddControllers();

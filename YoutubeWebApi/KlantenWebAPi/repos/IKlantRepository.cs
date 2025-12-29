@@ -6,14 +6,14 @@ namespace KlantenWebAPi.repos;
 
 public interface IKlantRepository
 {
-   Task<List<KlantResponseContract>> GetAllAsync();
+    Task<List<KlantResponseContract>> GetAllAsync();
 
     Task<KlantResponseContract?> GetByIdAsync(Guid id);
 
     Task<KlantResponseContract> CreateAsync(KlantRequestContract klant);
 
-    Task UpdateAsync(Guid id, KlantRequestContract klant);
+    Task<bool> UpdateAsync(Guid id, KlantRequestContract klant);
 
-    Task DeleteAsync(Guid id);
+    Task<bool> DeleteAsync(Guid id);
 
 }
