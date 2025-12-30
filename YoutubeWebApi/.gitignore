@@ -4,3 +4,7 @@
 
 # Generated assembly cache
 **/AssemblyInfoInputs.cache
+
+# App settings (secrets)
+appsettings.json
+appsettings.Development.json
