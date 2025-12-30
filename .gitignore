@@ -1,0 +1,51 @@
+# =======================================
+# .NET / C# GitIgnore for Souline
+# =======================================
+
+# Binaries & build folders
+bin/
+obj/
+out/
+debug/
+release/
+[Bb]in/
+[Oo]bj/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Visual Studio cache
+.vs/
+.vscode/
+
+# Logs
+*.log
+
+# Compiled DLLs
+*.dll
+*.pdb
+
+# Generated Assembly Info (avoid committing)
+*AssemblyInfo.cs
+*MvcApplicationPartsAssemblyInfo.cs
+
+# Publish output
+publish/
+dist/
+
+# NuGet
+*.nupkg
+*.nuspec
+packages/
+project.lock.json
+project.fragment.lock.json
+
+# JetBrains Rider
+.idea/
+
+# =======================================
+# END
+# =======================================
