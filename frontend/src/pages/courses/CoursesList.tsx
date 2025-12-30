@@ -3,14 +3,23 @@ import { useEffect, useState } from "react";
 import Loading from "../../components/Loading";
 import { Link } from "react-router-dom";
 import AddToCartButton from "../../components/AddToCartButton";
+import { useCourses } from "../../hooks/useCourses";
+
+
+// 👇 Add this near top of CoursesList.tsx
+const generateRandomPrice = () => {
+  const min = 14.99;
+  const max = 69.99;
+  return Number((Math.random() * (max - min) + min).toFixed(2));
+};
 
 const CoursesList = () => {
   const [courses, setCourses] = useState<Course[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const addToCart = (course: Course) => {
-  console.log("Added to cart:", course);
-};
+   
+const{addCoursesToCart} = useCourses();
+ 
 
  useEffect(() => {
   const fetchCourses = async () => {
@@ -22,9 +31,29 @@ const CoursesList = () => {
       if (!response.ok) {
         throw new Error("Failed to load courses");
       }
+      //old version
+      
+     
+      
+      const data: CourseResponse = await response.json();
+      console.log("🚨 DATA FROM BACKEND:", data);
+      console.log("🚨 RAW BACKEND ITEM:", data[0]);
 
-      const data = await response.json();
-      setCourses(data);
+
+const coursesMapped: Course[] = data.map((item) => ({
+  id: item.id,
+  title: item.title,
+  description: item.description,
+  thumbnail: item.thumbnail,
+  itemCount: item.itemCount,
+  price: generateRandomPrice(),
+}));
+
+
+setCourses(coursesMapped);
+
+
+
 
     } catch (error) {
       if (error instanceof Error) {
@@ -83,7 +112,12 @@ const CoursesList = () => {
           </Link>
 
           {/* Non-navigation actions */}
-          <AddToCartButton onClick={() => addToCart(c)} />
+          <AddToCartButton
+           onClick={( ) =>{
+            addCoursesToCart(c)}
+            } />
+          
+            
 
         </div>
       ))}

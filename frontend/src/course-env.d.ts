@@ -4,20 +4,15 @@ interface Course {
   description: string;
   thumbnail: string;
   itemCount: number;
+  price: number;
 }
 
-interface CourseResponse {
-  items: {
-    id: string;
-    snippet: {
-      title: string;
-      description: string;
-      thumbnails: {
-        medium: { url: string };
-      };
-    };
-    contentDetails: {
-      itemCount: number;
-    };
-  }[];
+interface YoutubeItem {
+  id: string;
+  title: string;
+  description: string;
+  thumbnail: string;
+  itemCount: number;
 }
+
+type CourseResponse = YoutubeItem[];

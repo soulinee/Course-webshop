@@ -5,19 +5,24 @@ const NavBar = () => {
     <nav className="flex items-center space-x-8">
       <Link
         to="/courses"
-        className="text-gray-300 hover:text-white no-underline transition"
+        className="coursess"
       >
         Courses
       </Link>
       <Link
+      to="/cart"
+      className="cart">
+      Cart
+      </Link>
+      <Link
         to="/about"
-        className="text-gray-300 hover:text-white no-underline transition"
+        className="about"
       >
         About
       </Link>
       <Link
         to="/login"
-        className="text-gray-300 hover:text-white no-underline transition"
+        className="login"
       >
         Login
       </Link>
