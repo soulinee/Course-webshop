@@ -1,8 +1,8 @@
 # =======================================
-# .NET / C# GitIgnore for Souline
+# .NET / C# GitIgnore for OnlineCourseMarketPlace
 # =======================================
 
-# Binaries & build folders
+# Build output
 bin/
 obj/
 out/
@@ -11,24 +11,25 @@ release/
 [Bb]in/
 [Oo]bj/
 
-# User-specific files
+# IDE files
+.vs/
+.vscode/
+.idea/
+
+# User-specific
 *.user
 *.suo
 *.userosscache
 *.sln.docstates
 
-# Visual Studio cache
-.vs/
-.vscode/
-
 # Logs
 *.log
 
-# Compiled DLLs
+# Compiled DLLs + pdb
 *.dll
 *.pdb
 
-# Generated Assembly Info (avoid committing)
+# Auto-generated files
 *AssemblyInfo.cs
 *MvcApplicationPartsAssemblyInfo.cs
 
@@ -43,8 +44,12 @@ packages/
 project.lock.json
 project.fragment.lock.json
 
-# JetBrains Rider
-.idea/
+# App settings (secrets)
+appsettings.Development.json
+appsettings.Production.json
+appsettings.Staging.json
+# allow base config but ignore secret ones
+# !appsettings.json  <- uncomment if you want to keep base file tracked
 
 # =======================================
 # END
