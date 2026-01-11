@@ -50,6 +50,10 @@ appsettings.Production.json
 appsettings.Staging.json
 # allow base config but ignore secret ones
 # !appsettings.json  <- uncomment if you want to keep base file tracked
+# Identity / SQLite databases
+*.db
+*.db-shm
+*.db-wal
 
 # =======================================
 # END
