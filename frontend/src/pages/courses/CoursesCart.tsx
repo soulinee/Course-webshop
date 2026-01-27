@@ -1,4 +1,5 @@
 
+import CheckoutButton from "../../components/CheckoutButton";
 import { useCourses } from "../../hooks/useCourses";
 
 const CoursesCart = () => {
@@ -48,9 +49,9 @@ const CoursesCart = () => {
             €{courses.reduce((t, c) => t + c.price, 0).toFixed(2)}
           </p>
 
-          <button className="checkout-btn">Proceed to Checkout →</button>
-
-          <button className="coupon-btn">Apply Coupon</button>
+          {/* <button className="checkout-btn">Proceed to Checkout →</button> */}
+            <CheckoutButton cartItems={courses}/>
+          
         </div>
 
       </div>

@@ -4,6 +4,7 @@ import Loading from "../../components/Loading";
 import { Link } from "react-router-dom";
 import AddToCartButton from "../../components/AddToCartButton";
 import { useCourses } from "../../hooks/useCourses";
+import toast from "react-hot-toast";
 
 
 // 👇 Add this near top of CoursesList.tsx
@@ -29,7 +30,7 @@ const{addCoursesToCart} = useCourses();
       const response = await fetch("http://localhost:5263/api/courses");
 
       if (!response.ok) {
-        throw new Error("Failed to load courses");
+        throw new Error("Failed to load courses" + error);
       }
       //old version
       
@@ -70,32 +71,11 @@ setCourses(coursesMapped);
 }, []);
 
 
-// conditionele rendering
 
-  //if(isLoading){
-   // return <Loading/>;
-  //}
  return (
   <main>
   <h1 className="page-title">Available Courses</h1>
-  
-     
-   
 
-       
-
-{/* {
-  isLoading ? <Loading/> : <div className="course-grid">
-    {courses.map(c => (
-      <a key={c.id} href={`/course/${c.id}`} className="course-card">
-        <img src={c.thumbnail} alt={c.title} />
-        <h2>{c.title}</h2>
-        <p>{c.itemCount} lessons</p>
-      </a>
-    ))}
-  </div>
-}
-    */}
 {
   isLoading ? (
     <Loading />
@@ -108,13 +88,15 @@ setCourses(coursesMapped);
           <Link to={`/course/${c.id}`} className="course-link">
             <img src={c.thumbnail} alt={c.title} />
             <h2>{c.title}</h2>
-            <p>{c.itemCount} lessons</p>
+            
           </Link>
 
           {/* Non-navigation actions */}
           <AddToCartButton
            onClick={( ) =>{
-            addCoursesToCart(c)}
+            addCoursesToCart(c)
+              toast.success(`${c.title} added to cart!`);
+          }
             } />
           
             

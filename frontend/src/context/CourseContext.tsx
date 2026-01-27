@@ -6,6 +6,7 @@ import React from 'react'
 interface CoursesContextType{
   courses: Course[];
   addCoursesToCart:(item:Course) => void;
+   clearCart: () => void;
 }
 
 export const CourseContext = createContext<CoursesContextType | null>(null);
@@ -18,10 +19,13 @@ export const CourseProvider = (props:PropsWithChildren) => {
   const addCoursesToCart = (item:Course) =>{
 
     setCourses([...courses, item]);
-  }
+  };
+    const clearCart = () => {
+    setCourses([]);
+  };
   return(
 
-    <CourseContext.Provider value={{courses, addCoursesToCart}}>
+    <CourseContext.Provider value={{courses, addCoursesToCart,clearCart}}>
       {props.children}
     </CourseContext.Provider>
   );

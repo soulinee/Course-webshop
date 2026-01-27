@@ -5,6 +5,7 @@ interface Course {
   thumbnail: string;
   itemCount: number;
   price: number;
+  
 }
 
 interface YoutubeItem {
@@ -13,6 +14,7 @@ interface YoutubeItem {
   description: string;
   thumbnail: string;
   itemCount: number;
+  items: [];
 }
 
 type CourseResponse = YoutubeItem[];

@@ -6,6 +6,14 @@ import { useParams } from "react-router-dom";
 import Axios from "axios";
 
 const YT_PLAYLIST_URL = "https://www.googleapis.com/youtube/v3/playlists";
+const generateRandomPrice = () => {
+  const min = 14.99;
+  const max = 69.99;
+  return Number((Math.random() * (max - min) + min).toFixed(2));
+};
+
+
+
 
 const Course = () => {
   const { courseId } = useParams();
@@ -37,6 +45,7 @@ const Course = () => {
           description: playlist.snippet.description,
           thumbnail: playlist.snippet.thumbnails.medium.url,
           itemCount: playlist.contentDetails.itemCount,
+          price: generateRandomPrice()  
         });
       } catch (error) {
         console.error(error);
@@ -52,10 +61,14 @@ const Course = () => {
 
   return (
     <>
+    <div className="courseComponent">
+
       <h1>{course?.title}</h1>
       <img src={course?.thumbnail} alt={course?.title} />
       <p>{course?.description}</p>
       <p>Videos in playlist: {course?.itemCount}</p>
+    </div>
+      
     </>
   );
 };
