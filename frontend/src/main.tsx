@@ -21,7 +21,7 @@ import Dashboard from './pages/admin/Dashboard';
 
 
 const settings: UserManagerSettings = { 
-  authority: "https://localhost:5001",
+  authority:  "http://hogent-identityserver-soulineasaad.azurewebsites.net",
   client_id: "coursemarket-frontend",
   //client_secret: "webapp-secret",
   redirect_uri: "http://localhost:5173/callback",
