@@ -10,43 +10,69 @@ public static class Config
             new IdentityResources.OpenId(),
             new IdentityResources.Profile(),
         };
-
+// een API scope is een toestemming die zegt wat een client mag doen met een API
     public static IEnumerable<ApiScope> ApiScopes =>
         new ApiScope[]
         {
             new ApiScope("scope1"),
             new ApiScope("scope2"),
+            // dit nog aanpassen 
+            //bv. new ApiScope("shipit.pricequotes.api.write"), 
+            new ApiScope("coursegateway","CourseGateway API")
         };
+    
+    public static IEnumerable<ApiResource> ApiResources =>
+[
+    new ApiResource("coursegateway-api", "CourseGateway API")
+    {
+        Scopes = { "coursegateway" }
+    }
+];
+
+
 
     public static IEnumerable<Client> Clients =>
-        new Client[]
+     new Client[]
+    {
+        // React SPA frontend (Code flow + PKCE)
+        new Client
         {
-            // m2m client credentials flow client
-            new Client
+            // de unieke naam van mijn React App wordt gebruikt bij login 
+            ClientId = "coursemarket-frontend",
+            ClientName = "CourseMarket React Frontend",
+
+            AllowedGrantTypes = GrantTypes.Code,
+            RequirePkce = true,
+            RequireClientSecret = false, // SPA = geen secret react bewaart geen geheim
+            
+            // deze code is juist en volgt de cursus
+
+            //Login callback url
+            RedirectUris =
             {
-                ClientId = "m2m.client",
-                ClientName = "Client Credentials Client",
+                "http://localhost:5173/callback"
+            },
+            //Logout callback url
+            PostLogoutRedirectUris =
+            {
+                "http://localhost:5173/"
+            },
+            //CORS. Opgelet: geen trailing / (origin vs url)
 
-                AllowedGrantTypes = GrantTypes.ClientCredentials,
-                ClientSecrets = { new Secret("511536EF-F270-4058-80CA-1C89C192F69A".Sha256()) },
-
-                AllowedScopes = { "scope1" }
+            AllowedCorsOrigins =
+            {
+                "http://localhost:5173"
             },
 
-            // interactive client using code flow + pkce
-            new Client
+            AllowedScopes =
             {
-                ClientId = "interactive",
-                ClientSecrets = { new Secret("49C1A7E1-0C79-4A89-A3D6-A37998FB86B0".Sha256()) },
-
-                AllowedGrantTypes = GrantTypes.Code,
-
-                RedirectUris = { "https://localhost:44300/signin-oidc" },
-                FrontChannelLogoutUri = "https://localhost:44300/signout-oidc",
-                PostLogoutRedirectUris = { "https://localhost:44300/signout-callback-oidc" },
-
-                AllowOfflineAccess = true,
-                AllowedScopes = { "openid", "profile", "scope2" }
+                "openid",
+                "profile",
+                "coursegateway" //  toegang tot CourseGateway API
             },
+
+            AllowAccessTokensViaBrowser = true
+        }
+         
         };
 }

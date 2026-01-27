@@ -21,6 +21,21 @@ namespace YoutubeWebApi.controllers
         return Ok(courses);
     }
 
+        [HttpGet("{id}")]
+    public async Task<IActionResult> GetCourseById(string id)
+    {
+        var course = await _youtube.GetCourseByIdAsync(id);
+
+        if (course == null)
+            return NotFound();
+
+        return Ok(course);
+    }
+
+     
+
+
+
 
 
 
