@@ -46,12 +46,12 @@ builder.Services.Configure<EnrollmentRepositoryOptions>(
 // HTTP clients (DIT HOORT HIER)
 builder.Services.AddHttpClient<IKlantenClient, KlantenClient>(client =>
 {
-    client.BaseAddress = new Uri("http://localhost:5056/");
+    client.BaseAddress = new Uri("http://hogent-klantwebapapi-soulineasaad.azurewebsites.net/");
 });
 
 builder.Services.AddHttpClient<IYoutubeClient, YoutubeClient>(client =>
 {
-    client.BaseAddress = new Uri("http://localhost:5263/");
+    client.BaseAddress = new Uri( "http://hogent-youtubewebapi-soulineasaad.azurewebsites.net/");
 });
 
 // Dependency Injection

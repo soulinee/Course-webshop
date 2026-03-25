@@ -14,6 +14,8 @@ namespace CourseGatewayApi.Controllers
         [HttpGet("my")]
         public async Task<IActionResult> GetMyCourses()
         {
+            //wie de user is 
+            //of uit de sessie halen 
             
 
             throw new NotImplementedException();
