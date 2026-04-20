@@ -1,0 +1,6 @@
+@KlantenWebAPi_HostAddress = http://localhost:5056
+
+GET {{KlantenWebAPi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

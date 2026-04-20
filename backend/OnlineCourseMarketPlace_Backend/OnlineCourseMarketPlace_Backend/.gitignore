@@ -1,0 +1,60 @@
+# =======================================
+# .NET / C# GitIgnore for OnlineCourseMarketPlace
+# =======================================
+
+# Build output
+bin/
+obj/
+out/
+debug/
+release/
+[Bb]in/
+[Oo]bj/
+
+# IDE files
+.vs/
+.vscode/
+.idea/
+
+# User-specific
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Logs
+*.log
+
+# Compiled DLLs + pdb
+*.dll
+*.pdb
+
+# Auto-generated files
+*AssemblyInfo.cs
+*MvcApplicationPartsAssemblyInfo.cs
+
+# Publish output
+publish/
+dist/
+
+# NuGet
+*.nupkg
+*.nuspec
+packages/
+project.lock.json
+project.fragment.lock.json
+
+# App settings (secrets)
+appsettings.Development.json
+appsettings.Production.json
+appsettings.Staging.json
+# allow base config but ignore secret ones
+# !appsettings.json  <- uncomment if you want to keep base file tracked
+# Identity / SQLite databases
+*.db
+*.db-shm
+*.db-wal
+
+# =======================================
+# END
+# =======================================

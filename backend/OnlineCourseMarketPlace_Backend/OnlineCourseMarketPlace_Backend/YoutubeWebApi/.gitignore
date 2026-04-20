@@ -1,0 +1,10 @@
+# Build output
+**/bin/
+**/obj/
+
+# Generated assembly cache
+**/AssemblyInfoInputs.cache
+
+# App settings (secrets)
+appsettings.json
+appsettings.Development.json
