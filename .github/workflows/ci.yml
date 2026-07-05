@@ -2,14 +2,15 @@ name: Course Marketplace CI
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
 
   pull_request:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
-  build:
-
+  backend:
     runs-on: ubuntu-latest
 
     defaults:
@@ -17,7 +18,6 @@ jobs:
         working-directory: backend/OnlineCourseMarketPlace_Backend/OnlineCourseMarketPlace_Backend
 
     steps:
-
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -31,6 +31,19 @@ jobs:
         with:
           dotnet-version: 9.0.x
 
+      - name: Debug backend folder
+        run: |
+          echo "Current directory:"
+          pwd
+
+          echo ""
+          echo "Contents:"
+          ls -la
+
+          echo ""
+          echo "Searching for solution files..."
+          find . -name "*.sln"
+
       - name: Restore NuGet packages
         run: dotnet restore YoutubeWebApi.sln
 
@@ -41,7 +54,6 @@ jobs:
         run: dotnet publish YoutubeWebApi/YoutubeWebApi/YoutubeWebApi.csproj -c Release -o publish
 
   frontend:
-
     runs-on: ubuntu-latest
 
     defaults:
@@ -49,11 +61,10 @@ jobs:
         working-directory: frontend/OnlineCourseMarketPlace_Frontend/frontend
 
     steps:
-
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
