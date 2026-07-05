@@ -14,7 +14,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: backend/OnlineCourseMarketPlace_Backend
+        working-directory: backend/OnlineCourseMarketPlace_Backend/OnlineCourseMarketPlace_Backend
 
     steps:
 
