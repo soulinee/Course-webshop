@@ -51,7 +51,7 @@ jobs:
         run: dotnet build YoutubeWebApi.sln --configuration Release --no-restore
 
       - name: Publish YoutubeWebApi
-        run: dotnet publish YoutubeWebApi/YoutubeWebApi/YoutubeWebApi.csproj -c Release -o publish
+        run: dotnet publish YoutubeWebApi/YoutubeWebApi.csproj -c Release -o publish
 
   frontend:
     runs-on: ubuntu-latest
