@@ -69,7 +69,7 @@ jobs:
         with:
           node-version: 22
           cache: npm
-          cache-dependency-path: frontend/OnlineCourseMarketPlace_Frontend/frontend/package-lock.json
+          cache-dependency-path: frontend/OnlineCourseMarketPlace_Frontend/OnlineCourseMarketplace_Frontend/frontend/package-lock.json
 
       - name: Install dependencies
         run: npm ci
