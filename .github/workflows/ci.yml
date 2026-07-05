@@ -58,7 +58,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: frontend/OnlineCourseMarketPlace_Frontend/frontend
+        working-directory: frontend/OnlineCourseMarketPlace_Frontend/OnlineCourseMarketplace_Frontend/frontend
 
     steps:
       - name: Checkout repository
