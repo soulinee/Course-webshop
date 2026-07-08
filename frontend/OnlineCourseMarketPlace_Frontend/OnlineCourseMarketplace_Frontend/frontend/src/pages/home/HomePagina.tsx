@@ -1,4 +1,4 @@
-import React from 'react'
+
 import CoursesList from '../courses/CoursesList'
  
 

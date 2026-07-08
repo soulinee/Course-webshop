@@ -1,19 +1,5 @@
-//stap 1 aanmaken van nieuwe context
-
-import { createContext,  useState, type PropsWithChildren } from "react";
- 
-
-interface CoursesContextType{
-  courses: Course[];
-  addCoursesToCart:(item:Course) => void;
-   clearCart: () => void;
-}
-
-export const CourseContext = createContext<CoursesContextType | null>(null);
-
-// stap 2 provider aanmaken voor deze context
-
-
+import { useState, type PropsWithChildren } from "react";
+import { CourseContext } from "./CourseContext";
 export const CourseProvider = (props:PropsWithChildren) => {
   const [courses, setCourses] = useState<Course[]>([]);
   const addCoursesToCart = (item:Course) =>{
@@ -30,5 +16,3 @@ export const CourseProvider = (props:PropsWithChildren) => {
     </CourseContext.Provider>
   );
 }
-
- 

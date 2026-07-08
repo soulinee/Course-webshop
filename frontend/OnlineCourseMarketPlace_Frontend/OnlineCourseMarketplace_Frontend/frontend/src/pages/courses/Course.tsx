@@ -1,11 +1,11 @@
 console.log("COURSE COMPONENT IS MOUNTING");
 
 
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import Axios from "axios";
+ 
 
-const YT_PLAYLIST_URL = "https://www.googleapis.com/youtube/v3/playlists";
+ 
 const generateRandomPrice = () => {
   const min = 14.99;
   const max = 69.99;
@@ -21,43 +21,36 @@ const Course = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-   // if (!courseId) return;
+   if (!courseId) return;
 
     const fetchPlaylist = async () => {
       setIsLoading(true);
       try {
-        const response = await Axios.get<CourseResponse>(YT_PLAYLIST_URL, {
-          params: {
-            part: "snippet,contentDetails",
-            id: courseId,
-            key: import.meta.env.VITE_YOUTUBE_API_KEY,
-          },
-        });
-        console.log(import.meta.env.VITE_YOUTUBE_API_KEY);
+    const response = await fetch(
+        `http://localhost:5263/api/courses/${courseId}`
+      );
 
-
-
-        const playlist = response.data.items[0];
-
-        setCourse({
-          id: playlist.id,
-          title: playlist.snippet.title,
-          description: playlist.snippet.description,
-          thumbnail: playlist.snippet.thumbnails.medium.url,
-          itemCount: playlist.contentDetails.itemCount,
-          price: generateRandomPrice()  
-        });
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setIsLoading(false);
+      if (!response.ok) {
+        throw new Error("Failed to load course");
       }
-    };
 
-    fetchPlaylist();
-  }, [courseId]);
+      const course = await response.json();
 
-  if (isLoading) return <p>Loading...</p>;
+      setCourse({
+        ...course,
+        price: generateRandomPrice(),
+      });
+            } catch (error) {
+              console.error(error);
+            } finally {
+              setIsLoading(false);
+            }
+          };
+
+          fetchPlaylist();
+        }, [courseId]);
+
+        if (isLoading) return <p>Loading...</p>;
 
   return (
     <>
