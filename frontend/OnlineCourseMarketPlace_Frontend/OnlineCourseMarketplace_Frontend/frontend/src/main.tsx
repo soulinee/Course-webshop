@@ -6,7 +6,7 @@ import CoursesList from './pages/courses/CoursesList';
 import RootLayout from './layouts/RootLayout';
 import Course from './pages/courses/Course';
 import CoursesCart from './pages/courses/CoursesCart';
-import { CourseProvider } from './context/CourseContext';
+ 
 import About from './pages/About';
 import Login from './components/Login';
 import { Toaster } from "react-hot-toast";
@@ -17,6 +17,7 @@ import CheckoutSuccesss from "./components/CheckoutSuccesss";
 import CheckoutCancel from "./components/CheckoutCancel";
 import MyCourses from "./pages/courses/MyCourses";
 import Dashboard from './pages/admin/Dashboard';
+import { CourseProvider } from './context/CourseProvider';
 
 
 
